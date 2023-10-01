@@ -12,9 +12,7 @@ import com.example.taskflow.domain.repositories.AccountService
 import com.example.taskflow.domain.repositories.LogService
 import com.example.taskflow.domain.use_cases.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -83,6 +81,13 @@ class SignUpViewModel @Inject constructor(
         }
         launchCatching {
             accountService.createAccountWithEmailAndPassword(uiState.value.email,uiState.value.password)
+            openAndPopUp(AppNavigation.MAIN_SCREEN,AppNavigation.SIGN_UP_SCREEN)
+        }
+    }
+
+    fun onGoogleSignInCLick(idToken:String,openAndPopUp: (String, String) -> Unit) {
+        launchCatching {
+            accountService.createAccountWithGoogle(idToken)
             openAndPopUp(AppNavigation.MAIN_SCREEN,AppNavigation.SIGN_UP_SCREEN)
         }
     }

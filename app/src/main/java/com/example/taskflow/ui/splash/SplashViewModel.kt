@@ -43,7 +43,7 @@ class SplashViewModel @Inject constructor(
 
   fun onAppStart(openAndPopUp: (String, String) -> Unit) {
     showError.value = false
-    if (accountService.hasUser) openAndPopUp(MAIN_SCREEN, SPLASH_SCREEN)
+    if (accountService.hasUser) openAndPopUp(SIGN_UP_SCREEN, SPLASH_SCREEN)
     else createAnonymousAccount(openAndPopUp)
   }
 
@@ -55,7 +55,7 @@ class SplashViewModel @Inject constructor(
         showError.value = true
         throw ex
       }
-      openAndPopUp(MAIN_SCREEN, SPLASH_SCREEN)
+      openAndPopUp(SIGN_UP_SCREEN, SPLASH_SCREEN)
     }
   }
 }

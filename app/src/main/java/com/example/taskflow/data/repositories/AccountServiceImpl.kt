@@ -1,10 +1,18 @@
 package com.example.taskflow.data.repositories
 
+import android.content.Context
+import android.provider.Settings.Global.getString
 import android.util.Log
+import com.example.taskflow.R
 import com.example.taskflow.domain.entities.UserEntity
 import com.example.taskflow.domain.repositories.AccountService
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -58,8 +66,14 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth): Ac
         if (credential != null) {
             auth.currentUser!!.linkWithCredential(credential).await()
         }
-    }
 
+    }
+    override suspend fun createAccountWithGoogle(tokenId: String){
+        val firebaseCredential = GoogleAuthProvider.getCredential(tokenId, null)
+        auth.signInWithCredential(firebaseCredential).await()
+
+    }
+//    todo remove?
     override suspend fun linkAccount(email: String, password: String) {
         val credential = EmailAuthProvider.getCredential(email, password)
         auth.currentUser!!.linkWithCredential(credential).await()
@@ -79,6 +93,7 @@ class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth): Ac
         createAnonymousAccount()
     }
 
+//    todo remove
     companion object {
         private const val LINK_ACCOUNT_TRACE = "linkAccount"
     }

@@ -13,4 +13,7 @@
     <string name="recovery_message_sent_to_email">Сообщение отправлено на почту</string>
     <string name="try_again">Попробуйте заново</string>
     <string name="whats_wrong">что-то пошло не так, повторите</string>
+    <string name="sign_in_google">Sign in with Google</string>
+
+    <string name="web_client_id">111468164578-vper3osvmcbfp0g3djp4i3ebkib03cv7.apps.googleusercontent.com</string>
 </resources>
