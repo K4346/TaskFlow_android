@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "111468164578",
+    "project_id": "taskflow-ead87",
+    "storage_bucket": "taskflow-ead87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111468164578:android:61580c221ccf962e8e75bb",
+        "android_client_info": {
+          "package_name": "com.example.taskflow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111468164578-1iqta86taq75f2dqs7rv5alv6pvtad06.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.taskflow",
+            "certificate_hash": "a851a8a8a4a4e3fc141e929afef894e153a248f7"
+          }
+        },
+        {
+          "client_id": "111468164578-vper3osvmcbfp0g3djp4i3ebkib03cv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX8cYXoGuGytutrfNt_0ooocdO0yw-oHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111468164578-vper3osvmcbfp0g3djp4i3ebkib03cv7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

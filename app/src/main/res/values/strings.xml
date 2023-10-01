@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TaskFlow</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="login_title">Авторизация</string>
+    <string name="forgot_password">Забыл пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="register_account">Регистрация</string>
+    <string name="email_error">Неккоректная почта</string>
+    <string name="password_error">Неккоретный пароль</string>
+    <string name="password_match_error">Пароли не совпадают</string>
+    <string name="recovery_message_sent_to_email">Сообщение отправлено на почту</string>
+    <string name="try_again">Попробуйте заново</string>
+    <string name="whats_wrong">что-то пошло не так, повторите</string>
+</resources>
