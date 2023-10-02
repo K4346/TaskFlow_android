@@ -29,10 +29,6 @@ class SignUpViewModel @Inject constructor(
 
     private val authUseCase = AuthUseCase()
 
-    init {
-        accountService.getUserInfo()
-    }
-
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
     }
@@ -46,10 +42,6 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onSignUpClick(openAndPopUp: (String, String) -> Unit) {
-        viewModelScope.launch {
-            Log.i("kpop",accountService.currentUser.map { it.id+it.isAnonymous }.first())
-        }
-
         uiState.value.apply {
 
             if (!authUseCase.isValidEmail(email)) {

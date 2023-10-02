@@ -8,6 +8,9 @@
     <string name="sign_in">Войти</string>
     <string name="register_account">Регистрация</string>
     <string name="email_error">Неккоректная почта</string>
+    <string name="image_url_error">Неккоректная ссылка на картинку</string>
+    <string name="profile_change_data_success">Данные изменились</string>
+    <string name="name_error">Неккоректное имя</string>
     <string name="password_error">Неккоретный пароль</string>
     <string name="password_match_error">Пароли не совпадают</string>
     <string name="recovery_message_sent_to_email">Сообщение отправлено на почту</string>
@@ -16,4 +19,15 @@
     <string name="sign_in_google">Sign in with Google</string>
 
     <string name="web_client_id">111468164578-vper3osvmcbfp0g3djp4i3ebkib03cv7.apps.googleusercontent.com</string>
+    <string name="continue_anonymous">Продолжить анонимно</string>
+    <string name="log_out">Выйти</string>
+    <string name="delete_account">Удалить аккаунт</string>
+    <string name="register_new_account">Зарегистрироваться</string>
+    <string name="anonymous_account">Анонимный аккаунт</string>
+    <string name="unnamed">Безымянный</string>
+    <string name="passwordEng">password</string>
+    <string name="google_com">google.com</string>
+    <string name="change_data">Поменять данные</string>
+    <string name="name">Имя</string>
+    <string name="image_url">Ссылка на картинку</string>
 </resources>

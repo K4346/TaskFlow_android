@@ -14,10 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-package com.example.makeitso.screens.splash
+package com.example.taskflow.ui.splash
 
 import android.app.Application
 import androidx.compose.runtime.mutableStateOf
+import com.example.taskflow.AppNavigation.Companion.LOGIN_SCREEN
 import com.example.taskflow.AppNavigation.Companion.MAIN_SCREEN
 import com.example.taskflow.AppNavigation.Companion.SIGN_UP_SCREEN
 import com.example.taskflow.AppNavigation.Companion.SPLASH_SCREEN
@@ -35,27 +36,13 @@ class SplashViewModel @Inject constructor(
   private val accountService: AccountService,
   logService: LogService, app: Application
 ) : TaskFlowViewModel(logService, app) {
-  val showError = mutableStateOf(false)
 
 // todo init {
 //    launchCatching { configurationService.fetchConfiguration() }
 //  }
 
   fun onAppStart(openAndPopUp: (String, String) -> Unit) {
-    showError.value = false
-    if (accountService.hasUser) openAndPopUp(SIGN_UP_SCREEN, SPLASH_SCREEN)
-    else createAnonymousAccount(openAndPopUp)
-  }
-
-  private fun createAnonymousAccount(openAndPopUp: (String, String) -> Unit) {
-    launchCatching(toast = false) {
-      try {
-        accountService.createAnonymousAccount()
-      } catch (ex: FirebaseAuthException) {
-        showError.value = true
-        throw ex
-      }
-      openAndPopUp(SIGN_UP_SCREEN, SPLASH_SCREEN)
-    }
+    if (accountService.hasUser) openAndPopUp(MAIN_SCREEN, SPLASH_SCREEN)
+    else openAndPopUp(LOGIN_SCREEN, SPLASH_SCREEN)
   }
 }

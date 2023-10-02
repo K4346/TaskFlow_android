@@ -37,10 +37,10 @@ fun TaskFlowApp() {
             SignUpScreen( { route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
         }
         composable(USER_INFO_SCREEN) {
-            UserInfoScreen()
+            UserInfoScreen( { route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
         }
         composable(MAIN_SCREEN) {
-            MainScreen { route, popUp -> appNavigation.navigate(route) }
+            MainScreen ({ route -> appNavigation.navigate(route) } )
         }
     }
 }

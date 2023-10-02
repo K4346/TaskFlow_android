@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.taskflow.R
 import com.example.taskflow.ui.composable.*
@@ -45,5 +46,22 @@ fun LoginScreen(
         ) {
             viewModel.onForgotPasswordClick()
         }
+
+        GoogleSignInButton({
+            viewModel.onGoogleSignInCLick(it,openAndPopUp)
+        })
+
+        BasicTextButton(R.string.register_new_account,
+            //todo Modifier.textButton()
+        ) {
+            viewModel.onRegisterAccountClick(openAndPopUp)
+        }
+
+        BasicTextButton(R.string.continue_anonymous,
+            //todo Modifier.textButton()
+        ) {
+            viewModel.onAnonymousClick(openAndPopUp)
+        }
     }
+
 }

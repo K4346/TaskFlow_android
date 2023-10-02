@@ -21,7 +21,7 @@ import com.example.taskflow.R.drawable as AppIcon
 
 @Composable
 fun BasicField(
-    @StringRes text: Int,
+    hint: String="",
     value: String,
     onNewValue: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -31,7 +31,7 @@ fun BasicField(
         modifier = modifier,
         value = value,
         onValueChange = { onNewValue(it) },
-        placeholder = { Text(stringResource(text)) }
+        placeholder = { Text(hint) }
     )
 }
 

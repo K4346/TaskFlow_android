@@ -14,6 +14,9 @@ class AuthUseCase {
             password.length >= MIN_PASS_LENGTH
            // && Pattern.compile(PASS_PATTERN).matcher(password).matches()
 
+    fun isValidPhotoUrl(url: String) =
+        url.isNotBlank() && Patterns.WEB_URL.matcher(url).matches()
+
     fun passwordMatches(password: String, repeatPassword: String) =
         password.isNotBlank() && password == repeatPassword
 }

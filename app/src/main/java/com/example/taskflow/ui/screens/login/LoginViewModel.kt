@@ -3,8 +3,10 @@ package com.example.taskflow.ui.screens.login
 import android.app.Application
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
+import com.example.taskflow.AppNavigation
 import com.example.taskflow.AppNavigation.Companion.LOGIN_SCREEN
 import com.example.taskflow.AppNavigation.Companion.MAIN_SCREEN
+import com.example.taskflow.AppNavigation.Companion.SIGN_UP_SCREEN
 import com.example.taskflow.R
 import com.example.taskflow.TaskFlowViewModel
 import com.example.taskflow.domain.repositories.AccountService
@@ -15,7 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val accountService: AccountService, logService: LogService, private val application: Application
+    private val accountService: AccountService,
+    logService: LogService,
+    private val application: Application
 ) : TaskFlowViewModel(logService, application) {
 
     val uiState = mutableStateOf(LoginUiState())
@@ -51,6 +55,7 @@ class LoginViewModel @Inject constructor(
             onLoginSuccess(MAIN_SCREEN, LOGIN_SCREEN)
         }
     }
+
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
     }
@@ -76,6 +81,27 @@ class LoginViewModel @Inject constructor(
                 R.string.recovery_message_sent_to_email,
                 Toast.LENGTH_LONG
             ).show()
+        }
+    }
+
+    fun onAnonymousClick(openAndPopUp: (String, String) -> Unit) {
+        launchCatching {
+            accountService.createAnonymousAccount()
+            openAndPopUp(MAIN_SCREEN, AppNavigation.SPLASH_SCREEN)
+        }
+    }
+
+    fun onRegisterAccountClick(openAndPopUp: (String, String) -> Unit) {
+        launchCatching {
+            openAndPopUp(SIGN_UP_SCREEN, LOGIN_SCREEN)
+        }
+    }
+
+//    todo объединить с регистрацией
+    fun onGoogleSignInCLick(idToken:String,openAndPopUp: (String, String) -> Unit) {
+        launchCatching {
+            accountService.createAccountWithGoogle(idToken)
+            openAndPopUp(AppNavigation.MAIN_SCREEN,AppNavigation.LOGIN_SCREEN)
         }
     }
 
