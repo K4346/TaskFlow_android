@@ -1,11 +1,11 @@
 package com.example.taskflow.domain.repositories
 
-import com.example.taskflow.domain.entities.UserEntity
+import com.example.taskflow.data.entities.UserEntity
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.Flow
 
-interface AccountService {
-//todo переделать
+interface AccountRepository {
+
     val currentUserId: String
     val hasUser: Boolean
     val currentUser: FirebaseUser?
@@ -21,7 +21,8 @@ interface AccountService {
     suspend fun linkAccount(email: String, password: String)
     suspend fun deleteAccount()
     suspend fun signOut()
-//    todo репозиторий
+
+    //    todo репозиторий
     fun getUserInfo()
 
     suspend fun updateProfile(userEntity: UserEntity)

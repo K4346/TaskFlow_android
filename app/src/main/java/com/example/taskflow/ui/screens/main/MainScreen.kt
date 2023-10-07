@@ -22,5 +22,5 @@ fun MainScreen(
 @Preview
 @Composable
 fun MainScreenPreview() {
-    MainScreen({q->})
+    MainScreen({ q -> })
 }

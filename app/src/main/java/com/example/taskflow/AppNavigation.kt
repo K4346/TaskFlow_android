@@ -3,8 +3,7 @@ package com.example.taskflow
 import androidx.navigation.NavHostController
 
 
-//синглтон?
-class AppNavigation(private val navController: NavHostController){
+class AppNavigation(private val navController: NavHostController) {
     fun popUp() {
         navController.popBackStack()
     }
@@ -13,7 +12,7 @@ class AppNavigation(private val navController: NavHostController){
         navController.navigate(route) { launchSingleTop = true }
     }
 
-    fun navigateAndPopUp(route: String, popUp: String,inclusive_: Boolean =true) {
+    fun navigateAndPopUp(route: String, popUp: String, inclusive_: Boolean = true) {
         navController.navigate(route) {
             launchSingleTop = true
             popUpTo(popUp) { inclusive = inclusive_ }
@@ -26,7 +25,8 @@ class AppNavigation(private val navController: NavHostController){
             popUpTo(0) { inclusive = true }
         }
     }
-    companion object{
+
+    companion object {
         const val SPLASH_SCREEN = "SplashScreen"
         const val MAIN_SCREEN = "MainScreen"
         const val LOGIN_SCREEN = "LoginScreen"

@@ -1,5 +1,5 @@
 package com.example.taskflow.domain.repositories
 
-interface LogService {
+interface LogRepository {
     fun logNonFatalCrash(throwable: Throwable)
 }

@@ -1,20 +1,24 @@
 package com.example.taskflow.di
 
-import com.example.taskflow.data.repositories.AccountServiceImpl
-import com.example.taskflow.data.repositories.LogServiceImpl
-import com.example.taskflow.domain.repositories.AccountService
-import com.example.taskflow.domain.repositories.LogService
+import com.example.taskflow.data.repositories.AccountRepositoryImpl
+import com.example.taskflow.data.repositories.LogRepositoryImpl
+import com.example.taskflow.domain.repositories.AccountRepository
+import com.example.taskflow.domain.repositories.LogRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AppModule {
     @Binds
-    abstract fun provideAccountService(impl: AccountServiceImpl): AccountService
+    @Singleton
+    abstract fun provideAccountService(impl: AccountRepositoryImpl): AccountRepository
 
-    @Binds abstract fun provideLogService(impl: LogServiceImpl): LogService
+    @Binds
+    @Singleton
+    abstract fun provideLogService(impl: LogRepositoryImpl): LogRepository
 
 }

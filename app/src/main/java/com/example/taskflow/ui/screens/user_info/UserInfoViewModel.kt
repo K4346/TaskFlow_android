@@ -6,21 +6,21 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.taskflow.AppNavigation
 import com.example.taskflow.R
 import com.example.taskflow.TaskFlowViewModel
-import com.example.taskflow.domain.entities.UserEntity
-import com.example.taskflow.domain.repositories.AccountService
-import com.example.taskflow.domain.repositories.LogService
+import com.example.taskflow.data.entities.UserEntity
+import com.example.taskflow.domain.repositories.AccountRepository
+import com.example.taskflow.domain.repositories.LogRepository
 import com.example.taskflow.domain.use_cases.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class UserInfoViewModel @Inject constructor(
-    private val accountService: AccountService,
-    logService: LogService,
+    private val accountRepository: AccountRepository,
+    logRepository: LogRepository,
     private val application: Application
-) : TaskFlowViewModel(logService, application) {
+) : TaskFlowViewModel(logRepository, application) {
 
-    val uiState = mutableStateOf(accountService.currentUser?.let {
+    val uiState = mutableStateOf(accountRepository.currentUser?.let {
         UserEntity(
             id = it.uid,
             isAnonymous = it.isAnonymous,
@@ -63,14 +63,14 @@ class UserInfoViewModel @Inject constructor(
 
     fun signOut(openAndPopUp: (String, String) -> Unit) {
         launchCatching {
-            accountService.signOut()
+            accountRepository.signOut()
             openAndPopUp(AppNavigation.LOGIN_SCREEN, AppNavigation.USER_INFO_SCREEN)
         }
     }
 
     fun deleteAccount(openAndPopUp: (String, String) -> Unit) {
         launchCatching {
-            accountService.deleteAccount()
+            accountRepository.deleteAccount()
             openAndPopUp(AppNavigation.LOGIN_SCREEN, AppNavigation.USER_INFO_SCREEN)
         }
     }
@@ -97,7 +97,7 @@ class UserInfoViewModel @Inject constructor(
             ).show()
             return
         }
-        if (name!=null && name!!.isBlank()) {
+        if (name != null && name!!.isBlank()) {
             Toast.makeText(
                 application.applicationContext,
                 R.string.name_error,
@@ -116,7 +116,7 @@ class UserInfoViewModel @Inject constructor(
         }
 
         launchCatching {
-            accountService.updateProfile(userEntity = uiState.value)
+            accountRepository.updateProfile(userEntity = uiState.value)
             Toast.makeText(
                 application.applicationContext,
                 R.string.profile_change_data_success,

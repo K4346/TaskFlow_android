@@ -17,32 +17,27 @@ limitations under the License.
 package com.example.taskflow.ui.splash
 
 import android.app.Application
-import androidx.compose.runtime.mutableStateOf
 import com.example.taskflow.AppNavigation.Companion.LOGIN_SCREEN
 import com.example.taskflow.AppNavigation.Companion.MAIN_SCREEN
-import com.example.taskflow.AppNavigation.Companion.SIGN_UP_SCREEN
 import com.example.taskflow.AppNavigation.Companion.SPLASH_SCREEN
-import com.example.taskflow.AppNavigation.Companion.USER_INFO_SCREEN
 import com.example.taskflow.TaskFlowViewModel
-import com.example.taskflow.domain.repositories.AccountService
-import com.example.taskflow.domain.repositories.LogService
-import com.google.firebase.auth.FirebaseAuthException
+import com.example.taskflow.domain.repositories.AccountRepository
+import com.example.taskflow.domain.repositories.LogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
- //todo потом написать configurationService: ConfigurationService,
-  private val accountService: AccountService,
-  logService: LogService, app: Application
-) : TaskFlowViewModel(logService, app) {
+    //todo потом написать configurationService: ConfigurationService,
+    private val accountRepository: AccountRepository, logRepository: LogRepository, app: Application
+) : TaskFlowViewModel(logRepository, app) {
 
 // todo init {
 //    launchCatching { configurationService.fetchConfiguration() }
 //  }
 
-  fun onAppStart(openAndPopUp: (String, String) -> Unit) {
-    if (accountService.hasUser) openAndPopUp(MAIN_SCREEN, SPLASH_SCREEN)
-    else openAndPopUp(LOGIN_SCREEN, SPLASH_SCREEN)
-  }
+    fun onAppStart(openAndPopUp: (String, String) -> Unit) {
+        if (accountRepository.hasUser) openAndPopUp(MAIN_SCREEN, SPLASH_SCREEN)
+        else openAndPopUp(LOGIN_SCREEN, SPLASH_SCREEN)
+    }
 }

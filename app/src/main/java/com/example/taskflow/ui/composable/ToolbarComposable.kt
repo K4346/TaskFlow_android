@@ -20,57 +20,57 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 
 @Composable
 fun BasicToolbar(title: String) {
-  TopAppBar(title = { Text(text =title) }, backgroundColor = toolbarColor())
+    TopAppBar(title = { Text(text = title) }, backgroundColor = toolbarColor())
 }
 
 //todo убрать??
 @Composable
 fun ActionToolbar(
-  title: String,
-  @DrawableRes endActionIcon: Int,
-  modifier: Modifier,
-  endAction: () -> Unit
+    title: String,
+    @DrawableRes endActionIcon: Int,
+    modifier: Modifier,
+    endAction: () -> Unit
 ) {
-  TopAppBar(
-    title = { Text(text =title) },
-    backgroundColor = toolbarColor(),
-    actions = {
-      Box(modifier) {
-        IconButton(onClick = endAction) {
-          Icon(painter = painterResource(endActionIcon), contentDescription = "Action")
+    TopAppBar(
+        title = { Text(text = title) },
+        backgroundColor = toolbarColor(),
+        actions = {
+            Box(modifier) {
+                IconButton(onClick = endAction) {
+                    Icon(painter = painterResource(endActionIcon), contentDescription = "Action")
+                }
+            }
         }
-      }
-    }
-  )
+    )
 }
 
 @Composable
 fun SettingsToolbar(
-  title: String,
-  @DrawableRes actionIcon: Int,
-  endAction: () -> Unit
+    title: String,
+    @DrawableRes actionIcon: Int,
+    endAction: () -> Unit
 ) {
-  TopAppBar(
-    title = { Text(text =title) },
-    backgroundColor = toolbarColor(),
-    actions = {
-      Box(Modifier) {
-        IconButton(onClick = endAction) {
-          Icon(painter = painterResource(actionIcon), contentDescription = "Settings")
+    TopAppBar(
+        title = { Text(text = title) },
+        backgroundColor = toolbarColor(),
+        actions = {
+            Box(Modifier) {
+                IconButton(onClick = endAction) {
+                    Icon(painter = painterResource(actionIcon), contentDescription = "Settings")
+                }
+            }
         }
-      }
-    }
-  )
+    )
 }
 
 @Composable
 private fun toolbarColor(darkTheme: Boolean = isSystemInDarkTheme()): Color {
-  return if (darkTheme) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant
+    return if (darkTheme) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant
 }

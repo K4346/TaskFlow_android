@@ -9,18 +9,18 @@ import com.example.taskflow.AppNavigation.Companion.MAIN_SCREEN
 import com.example.taskflow.AppNavigation.Companion.SIGN_UP_SCREEN
 import com.example.taskflow.R
 import com.example.taskflow.TaskFlowViewModel
-import com.example.taskflow.domain.repositories.AccountService
-import com.example.taskflow.domain.repositories.LogService
+import com.example.taskflow.domain.repositories.AccountRepository
+import com.example.taskflow.domain.repositories.LogRepository
 import com.example.taskflow.domain.use_cases.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val accountService: AccountService,
-    logService: LogService,
+    private val accountRepository: AccountRepository,
+    logRepository: LogRepository,
     private val application: Application
-) : TaskFlowViewModel(logService, application) {
+) : TaskFlowViewModel(logRepository, application) {
 
     val uiState = mutableStateOf(LoginUiState())
 
@@ -35,23 +35,19 @@ class LoginViewModel @Inject constructor(
     fun onLoginClick(onLoginSuccess: (String, String) -> Unit) {
         if (!authUseCase.isValidEmail(email)) {
             Toast.makeText(
-                application.applicationContext,
-                R.string.email_error,
-                Toast.LENGTH_LONG
+                application.applicationContext, R.string.email_error, Toast.LENGTH_LONG
             ).show()
             return
         }
 
         if (password.isBlank()) {
             Toast.makeText(
-                application.applicationContext,
-                R.string.password_error,
-                Toast.LENGTH_LONG
+                application.applicationContext, R.string.password_error, Toast.LENGTH_LONG
             ).show()
             return
         }
         launchCatching {
-            accountService.authenticate(email, password)
+            accountRepository.authenticate(email, password)
             onLoginSuccess(MAIN_SCREEN, LOGIN_SCREEN)
         }
     }
@@ -67,15 +63,13 @@ class LoginViewModel @Inject constructor(
     fun onForgotPasswordClick() {
         if (!authUseCase.isValidEmail(email)) {
             Toast.makeText(
-                application.applicationContext,
-                R.string.email_error,
-                Toast.LENGTH_LONG
+                application.applicationContext, R.string.email_error, Toast.LENGTH_LONG
             ).show()
             return
         }
 
         launchCatching {
-            accountService.sendRecoveryEmail(email)
+            accountRepository.sendRecoveryEmail(email)
             Toast.makeText(
                 application.applicationContext,
                 R.string.recovery_message_sent_to_email,
@@ -86,7 +80,7 @@ class LoginViewModel @Inject constructor(
 
     fun onAnonymousClick(openAndPopUp: (String, String) -> Unit) {
         launchCatching {
-            accountService.createAnonymousAccount()
+            accountRepository.createAnonymousAccount()
             openAndPopUp(MAIN_SCREEN, AppNavigation.SPLASH_SCREEN)
         }
     }
@@ -97,11 +91,11 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-//    todo объединить с регистрацией
-    fun onGoogleSignInCLick(idToken:String,openAndPopUp: (String, String) -> Unit) {
+    //    todo объединить с регистрацией
+    fun onGoogleSignInCLick(idToken: String, openAndPopUp: (String, String) -> Unit) {
         launchCatching {
-            accountService.createAccountWithGoogle(idToken)
-            openAndPopUp(AppNavigation.MAIN_SCREEN,AppNavigation.LOGIN_SCREEN)
+            accountRepository.createAccountWithGoogle(idToken)
+            openAndPopUp(AppNavigation.MAIN_SCREEN, AppNavigation.LOGIN_SCREEN)
         }
     }
 

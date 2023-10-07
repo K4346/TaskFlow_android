@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.taskflow.R
-import com.example.taskflow.ui.composable.*
+import com.example.taskflow.ui.composable.BasicButton
+import com.example.taskflow.ui.composable.BasicField
+import com.example.taskflow.ui.composable.EmailField
 
 @Composable
 fun UserInfoScreen(
@@ -43,8 +45,18 @@ fun UserInfoScreen(
 
         if (!uiState.isAnonymous) {
             uiState.email?.let { EmailField(it, viewModel::onEmailChange) }
-            uiState.name?.let { BasicField(hint = stringResource(R.string.name), value = it, onNewValue = viewModel::onNameChange) }
-            BasicField(hint = stringResource(R.string.image_url), photoUrl, viewModel::onPhotoUrlChange)
+            uiState.name?.let {
+                BasicField(
+                    hint = stringResource(R.string.name),
+                    value = it,
+                    onNewValue = viewModel::onNameChange
+                )
+            }
+            BasicField(
+                hint = stringResource(R.string.image_url),
+                photoUrl,
+                viewModel::onPhotoUrlChange
+            )
             BasicButton(R.string.change_data, action = { viewModel.changeProfile(openAndPopUp) })
         }
 

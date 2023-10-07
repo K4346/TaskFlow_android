@@ -9,8 +9,8 @@ import com.example.taskflow.AppNavigation.Companion.MAIN_SCREEN
 import com.example.taskflow.AppNavigation.Companion.SIGN_UP_SCREEN
 import com.example.taskflow.AppNavigation.Companion.SPLASH_SCREEN
 import com.example.taskflow.AppNavigation.Companion.USER_INFO_SCREEN
-import com.example.taskflow.ui.screens.main.MainScreen
 import com.example.taskflow.ui.screens.login.LoginScreen
+import com.example.taskflow.ui.screens.main.MainScreen
 import com.example.taskflow.ui.screens.sign_up.SignUpScreen
 import com.example.taskflow.ui.screens.user_info.UserInfoScreen
 import com.example.taskflow.ui.splash.SplashScreen
@@ -28,19 +28,19 @@ fun TaskFlowApp() {
         // exitTransition =   { slideOutHorizontally(animationSpec = tween(700)) }
     ) {
         composable(SPLASH_SCREEN) {
-            SplashScreen( { route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
+            SplashScreen({ route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
         }
         composable(LOGIN_SCREEN) {
-            LoginScreen( { route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
+            LoginScreen({ route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
         }
         composable(SIGN_UP_SCREEN) {
-            SignUpScreen( { route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
+            SignUpScreen({ route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
         }
         composable(USER_INFO_SCREEN) {
-            UserInfoScreen( { route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
+            UserInfoScreen({ route, popUp -> appNavigation.navigateAndPopUp(route, popUp) })
         }
         composable(MAIN_SCREEN) {
-            MainScreen ({ route -> appNavigation.navigate(route) } )
+            MainScreen({ route -> appNavigation.navigate(route) })
         }
     }
 }
