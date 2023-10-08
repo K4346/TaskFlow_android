@@ -29,8 +29,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     //todo потом написать configurationService: ConfigurationService,
-    private val accountRepository: AccountRepository, logRepository: LogRepository, app: Application
-) : TaskFlowViewModel(logRepository, app) {
+    private val accountRepository: AccountRepository,app: Application
+) : TaskFlowViewModel(app) {
 
 // todo init {
 //    launchCatching { configurationService.fetchConfiguration() }

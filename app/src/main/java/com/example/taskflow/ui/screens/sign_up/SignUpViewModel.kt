@@ -7,7 +7,6 @@ import com.example.taskflow.AppNavigation
 import com.example.taskflow.R
 import com.example.taskflow.TaskFlowViewModel
 import com.example.taskflow.domain.repositories.AccountRepository
-import com.example.taskflow.domain.repositories.LogRepository
 import com.example.taskflow.domain.use_cases.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,9 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    logRepository: LogRepository,
-    private val application: Application
-) : TaskFlowViewModel(logRepository, application) {
+    application: Application
+) : TaskFlowViewModel(application) {
 
     var uiState = mutableStateOf(SignUpUiState())
         private set
@@ -41,7 +39,7 @@ class SignUpViewModel @Inject constructor(
 
             if (!authUseCase.isValidEmail(email)) {
                 Toast.makeText(
-                    application.applicationContext,
+                    app.applicationContext,
                     R.string.email_error,
                     Toast.LENGTH_LONG
                 ).show()
@@ -50,7 +48,7 @@ class SignUpViewModel @Inject constructor(
 
             if (!authUseCase.isValidPassword(password)) {
                 Toast.makeText(
-                    application.applicationContext,
+                    app.applicationContext,
                     R.string.password_error,
                     Toast.LENGTH_LONG
                 ).show()
@@ -59,7 +57,7 @@ class SignUpViewModel @Inject constructor(
 
             if (!authUseCase.passwordMatches(password, repeatPassword)) {
                 Toast.makeText(
-                    application.applicationContext,
+                    app.applicationContext,
                     R.string.password_match_error,
                     Toast.LENGTH_LONG
                 ).show()

@@ -7,13 +7,9 @@ import com.example.taskflow.domain.repositories.LogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltViewModel
-class MainViewModel @Inject constructor(
-    accountRepository: AccountRepository,
-    logRepository: LogRepository,
+
+class MainViewModel(
     application: Application
-) : TaskFlowViewModel(logRepository, application) {
-    init {
-        accountRepository.getUserInfo()
-    }
+) : TaskFlowViewModel(application) {
+
 }

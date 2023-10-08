@@ -10,7 +10,6 @@ import com.example.taskflow.AppNavigation.Companion.SIGN_UP_SCREEN
 import com.example.taskflow.R
 import com.example.taskflow.TaskFlowViewModel
 import com.example.taskflow.domain.repositories.AccountRepository
-import com.example.taskflow.domain.repositories.LogRepository
 import com.example.taskflow.domain.use_cases.AuthUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -18,9 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    logRepository: LogRepository,
-    private val application: Application
-) : TaskFlowViewModel(logRepository, application) {
+    application: Application
+) : TaskFlowViewModel(application) {
 
     val uiState = mutableStateOf(LoginUiState())
 
@@ -35,14 +33,14 @@ class LoginViewModel @Inject constructor(
     fun onLoginClick(onLoginSuccess: (String, String) -> Unit) {
         if (!authUseCase.isValidEmail(email)) {
             Toast.makeText(
-                application.applicationContext, R.string.email_error, Toast.LENGTH_LONG
+                app.applicationContext, R.string.email_error, Toast.LENGTH_LONG
             ).show()
             return
         }
 
         if (password.isBlank()) {
             Toast.makeText(
-                application.applicationContext, R.string.password_error, Toast.LENGTH_LONG
+                app.applicationContext, R.string.password_error, Toast.LENGTH_LONG
             ).show()
             return
         }
@@ -63,7 +61,7 @@ class LoginViewModel @Inject constructor(
     fun onForgotPasswordClick() {
         if (!authUseCase.isValidEmail(email)) {
             Toast.makeText(
-                application.applicationContext, R.string.email_error, Toast.LENGTH_LONG
+                app.applicationContext, R.string.email_error, Toast.LENGTH_LONG
             ).show()
             return
         }
@@ -71,7 +69,7 @@ class LoginViewModel @Inject constructor(
         launchCatching {
             accountRepository.sendRecoveryEmail(email)
             Toast.makeText(
-                application.applicationContext,
+                app.applicationContext,
                 R.string.recovery_message_sent_to_email,
                 Toast.LENGTH_LONG
             ).show()

@@ -4,10 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,6 +19,7 @@ import com.example.taskflow.R
 import com.example.taskflow.ui.composable.BasicButton
 import com.example.taskflow.ui.composable.BasicField
 import com.example.taskflow.ui.composable.EmailField
+import kotlinx.coroutines.launch
 
 @Composable
 fun UserInfoScreen(
@@ -25,6 +27,13 @@ fun UserInfoScreen(
     viewModel: UserInfoViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState
+    val scope = rememberCoroutineScope()
+    val snackbarMessage by viewModel.snackbarMessage
+    val snackbarHostState = remember { SnackbarHostState() }
+    scope.launch {
+        snackbarMessage?.let { snackbarHostState.showSnackbar(it) }
+    }
+
     Column(
         modifier =
         Modifier

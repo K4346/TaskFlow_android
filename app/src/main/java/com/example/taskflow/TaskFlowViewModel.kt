@@ -9,9 +9,12 @@ import com.example.taskflow.domain.repositories.LogRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-open class TaskFlowViewModel(private val logRepository: LogRepository, val app: Application) :
-    AndroidViewModel(app) {
+
+open class TaskFlowViewModel(val app: Application) : AndroidViewModel(app) {
+    @Inject
+    lateinit var logRepository: LogRepository
     fun launchCatching(toast: Boolean = true, block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(
             CoroutineExceptionHandler { _, throwable ->
@@ -24,7 +27,6 @@ open class TaskFlowViewModel(private val logRepository: LogRepository, val app: 
                     ).show()
                 }
                 logRepository.logNonFatalCrash(throwable)
-            },
-            block = block
+            }, block = block
         )
 }
