@@ -6,8 +6,10 @@ private const val MIN_PASS_LENGTH = 6
 private const val PASS_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$"
 
 class AuthUseCase {
-    fun isValidEmail(email: String) =
-        email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    fun isValidEmail(email: String?) =
+        email != null && email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+    fun isValidAccountName(name: String?) = name != null && name.isNotBlank()
 
     fun isValidPassword(password: String) = password.isNotBlank() &&
             password.length >= MIN_PASS_LENGTH

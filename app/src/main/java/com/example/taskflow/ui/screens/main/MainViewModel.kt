@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val accountRepository: AccountRepository,
+    accountRepository: AccountRepository,
     logRepository: LogRepository,
     application: Application
 ) : TaskFlowViewModel(logRepository, application) {

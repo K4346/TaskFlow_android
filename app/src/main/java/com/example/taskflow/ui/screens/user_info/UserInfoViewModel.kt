@@ -1,6 +1,7 @@
 package com.example.taskflow.ui.screens.user_info
 
 import android.app.Application
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import com.example.taskflow.AppNavigation
@@ -10,6 +11,7 @@ import com.example.taskflow.data.entities.UserEntity
 import com.example.taskflow.domain.repositories.AccountRepository
 import com.example.taskflow.domain.repositories.LogRepository
 import com.example.taskflow.domain.use_cases.AuthUseCase
+import com.google.firebase.auth.UserInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -20,37 +22,50 @@ class UserInfoViewModel @Inject constructor(
     private val application: Application
 ) : TaskFlowViewModel(logRepository, application) {
 
-    val uiState = mutableStateOf(accountRepository.currentUser?.let {
-        UserEntity(
-            id = it.uid,
-            isAnonymous = it.isAnonymous,
-            name = it.displayName,
-            email = it.email,
-            photoUrl = it.photoUrl,
-            providerData = it.providerData
-        )
-    } ?: UserEntity())
+    val uiState = mutableStateOf(initUiState())
 
     private val email
         get() = uiState.value.email
     private val name
         get() = uiState.value.name
+    private val photoUrl
+        get() = uiState.value.photoUrl
 
     private val authUseCase = AuthUseCase()
 
-    var photoUrl = mutableStateOf(
-        if (uiState.value.photoUrl == null) "" else
-            uiState.value.photoUrl.toString()
-    )
+    private fun initUiState(): UserInfoUiState {
+        val userInfo = accountRepository.getUserInfo()
+        val state = with(userInfo) {
+            UserInfoUiState(
+                name ?: "", email ?: "", photoUrl?.toString() ?: "",
+                getProviders(providerData)
+            )
+        }
+        return state
+    }
+
+    private fun prepareUserEntityFromUserInfoUiState(): UserEntity {
+        val userInfoBase = accountRepository.getUserInfo()
+
+        return UserEntity(
+            userInfoBase.id,
+            userInfoBase.isAnonymous,
+            name,
+            email,
+            if (photoUrl.isBlank()) null else Uri.parse(photoUrl),
+            userInfoBase.providerData
+        )
+    }
+
 
     enum class SignInProvider(val providerName: String = "") {
         Google("Google-Auth"), Email("Email-Auth"), Anonymous("Anonymous-Auth")
     }
 
     //   todo interactor (этот метод выглядит не оч, но к сожалению отображть анонимность вместе с другими текущими способами авторизацию некорректно)
-    fun getProviders(): List<SignInProvider> {
+    private fun getProviders(providerData: List<UserInfo>?): List<SignInProvider> {
         val listProviders = mutableListOf<SignInProvider>()
-        uiState.value.providerData?.forEach {
+        providerData?.forEach {
             if (it.providerId == application.getString(R.string.google_com)) {
                 listProviders.add(SignInProvider.Google)
             } else if (it.providerId == application.getString(R.string.passwordEng)) {
@@ -84,12 +99,32 @@ class UserInfoViewModel @Inject constructor(
     }
 
     fun onPhotoUrlChange(newValue: String) {
-        photoUrl.value = newValue
+        uiState.value = uiState.value.copy(photoUrl = newValue)
     }
 
-    fun changeProfile(openAndPopUp: (String, String) -> Unit) {
+    //todo перенести часть логики в useCase (а желательно все что касается репозитория)
+    fun isAccountAnonymous() = accountRepository.getUserInfo().isAnonymous
 
-        if (email != null && !authUseCase.isValidEmail(email!!)) {
+    private fun nothingChanged(userData: UserEntity) =
+        (
+                email == userData.email
+                        && name == userData.name
+                        && photoUrl == (userData.photoUrl?.toString() ?: "")
+                )
+
+
+    fun changeProfile(openAndPopUp: (String, String) -> Unit) {
+        val userData = accountRepository.getUserInfo()
+        if (nothingChanged(userData)) {
+            Toast.makeText(
+                application.applicationContext,
+                R.string.nothing_to_change,
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+
+        if (email != userData.email && !authUseCase.isValidEmail(email)) {
             Toast.makeText(
                 application.applicationContext,
                 R.string.email_error,
@@ -97,7 +132,7 @@ class UserInfoViewModel @Inject constructor(
             ).show()
             return
         }
-        if (name != null && name!!.isBlank()) {
+        if (name != userData.name && !authUseCase.isValidAccountName(name)) {
             Toast.makeText(
                 application.applicationContext,
                 R.string.name_error,
@@ -106,7 +141,9 @@ class UserInfoViewModel @Inject constructor(
             return
         }
 
-        if (photoUrl.value.isNotEmpty() && !authUseCase.isValidPhotoUrl(photoUrl.value)) {
+        if (photoUrl != (userData.photoUrl?.toString() ?: "")
+            && !authUseCase.isValidPhotoUrl(photoUrl)
+        ) {
             Toast.makeText(
                 application.applicationContext,
                 R.string.image_url_error,
@@ -116,7 +153,7 @@ class UserInfoViewModel @Inject constructor(
         }
 
         launchCatching {
-            accountRepository.updateProfile(userEntity = uiState.value)
+            accountRepository.updateProfile(userEntity = prepareUserEntityFromUserInfoUiState())
             Toast.makeText(
                 application.applicationContext,
                 R.string.profile_change_data_success,

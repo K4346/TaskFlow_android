@@ -25,7 +25,6 @@ fun UserInfoScreen(
     viewModel: UserInfoViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState
-    val photoUrl by viewModel.photoUrl
     Column(
         modifier =
         Modifier
@@ -43,29 +42,27 @@ fun UserInfoScreen(
 
             )
 
-        if (!uiState.isAnonymous) {
-            uiState.email?.let { EmailField(it, viewModel::onEmailChange) }
-            uiState.name?.let {
-                BasicField(
-                    hint = stringResource(R.string.name),
-                    value = it,
-                    onNewValue = viewModel::onNameChange
-                )
-            }
+        if (!viewModel.isAccountAnonymous()) {
+            EmailField(uiState.email, viewModel::onEmailChange)
+            BasicField(
+                hint = stringResource(R.string.name),
+                value = uiState.name,
+                onNewValue = viewModel::onNameChange
+            )
             BasicField(
                 hint = stringResource(R.string.image_url),
-                photoUrl,
-                viewModel::onPhotoUrlChange
+                value = uiState.photoUrl,
+                onNewValue = viewModel::onPhotoUrlChange
             )
             BasicButton(R.string.change_data, action = { viewModel.changeProfile(openAndPopUp) })
         }
 
-        viewModel.getProviders().forEach {
+        uiState.providerList.forEach {
             Text(text = it.providerName)
         }
 
 
-        if (!uiState.isAnonymous) {
+        if (!viewModel.isAccountAnonymous()) {
             BasicButton(R.string.log_out, action = { viewModel.signOut(openAndPopUp) })
         }
 

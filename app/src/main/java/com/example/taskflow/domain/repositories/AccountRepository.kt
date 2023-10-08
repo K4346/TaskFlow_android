@@ -23,7 +23,7 @@ interface AccountRepository {
     suspend fun signOut()
 
     //    todo репозиторий
-    fun getUserInfo()
+    fun getUserInfo(): UserEntity
 
     suspend fun updateProfile(userEntity: UserEntity)
 }

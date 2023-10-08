@@ -26,9 +26,8 @@ class AccountRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) 
     override val currentUser: FirebaseUser?
         get() = auth.currentUser
 
-    //    todo только для самопроверки
-    override fun getUserInfo() {
-
+    override fun getUserInfo(): UserEntity {
+//        todo для  проверки
         if (hasUser) {
             auth.currentUser?.providerData?.forEach { profile ->
                 Log.i("kpop", "Sign-in provider: " + profile.providerId);
@@ -38,6 +37,16 @@ class AccountRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) 
                 Log.i("kpop", "  Photo URL: " + profile.photoUrl);
             }
         }
+        return auth.currentUser?.let {
+            UserEntity(
+                id = it.uid,
+                isAnonymous = it.isAnonymous,
+                name = it.displayName,
+                email = it.email,
+                photoUrl = it.photoUrl,
+                providerData = it.providerData
+            )
+        } ?: UserEntity()
     }
 
     override val currentUserEntity: Flow<UserEntity>

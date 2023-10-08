@@ -12,7 +12,7 @@ fun MainScreen(
     navigate: (String) -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    SettingsToolbar(title = "qwe", actionIcon = R.drawable.ic_settings) {
+    SettingsToolbar(title = "Главный экран", actionIcon = R.drawable.ic_settings) {
         navigate(
             AppNavigation.USER_INFO_SCREEN,
         )
@@ -22,5 +22,5 @@ fun MainScreen(
 @Preview
 @Composable
 fun MainScreenPreview() {
-    MainScreen({ q -> })
+    MainScreen({ })
 }
