@@ -30,11 +30,11 @@ class AccountRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) 
 //        todo для  проверки
         if (hasUser) {
             auth.currentUser?.providerData?.forEach { profile ->
-                Log.i("kpop", "Sign-in provider: " + profile.providerId);
-                Log.i("kpop", "  Provider-specific UID: " + profile.uid);
-                Log.i("kpop", "  Name: " + profile.displayName);
-                Log.i("kpop", "  Email: " + profile.email);
-                Log.i("kpop", "  Photo URL: " + profile.photoUrl);
+                Log.i("kpop", "Sign-in provider: " + profile.providerId)
+                Log.i("kpop", "  Provider-specific UID: " + profile.uid)
+                Log.i("kpop", "  Name: " + profile.displayName)
+                Log.i("kpop", "  Email: " + profile.email)
+                Log.i("kpop", "  Photo URL: " + profile.photoUrl)
             }
         }
         return auth.currentUser?.let {
@@ -66,6 +66,10 @@ class AccountRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) 
 
     override suspend fun authenticate(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).await()
+//        val credential = EmailAuthProvider.getCredential(email , password)
+//        if (credential != null) {
+//            auth.currentUser?.reauthenticate(credential).apply {  auth.currentUser?.updateEmail("laeyenix@gmail.com")?.await() }
+//        }
     }
 
     override suspend fun sendRecoveryEmail(email: String) {
@@ -81,7 +85,7 @@ class AccountRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) 
         if (credential != null) {
             auth.currentUser!!.linkWithCredential(credential).await()
         }
-        auth.currentUser!!.sendEmailVerification()
+      //  auth.currentUser!!.sendEmailVerification()
 
     }
 
